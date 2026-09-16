@@ -1,0 +1,35 @@
+# Sobe a aplicação completa: Interface (este repositório) + API (crm-cnpj-api).
+# Por padrão, a API é buildada a partir de ../crm-cnpj-api (repositórios clonados lado a lado).
+# Para buildar direto do GitHub, sem clonar a API:
+#   API_CONTEXT=https://github.com/ph-souzaa/crm-cnpj-api.git docker compose up --build
+name: crm-cnpj
+
+services:
+  api:
+    build:
+      context: ${API_CONTEXT:-../crm-cnpj-api}
+    container_name: crm-cnpj-api
+    environment:
+      DATABASE_URL: sqlite:////app/data/crm.db
+      CORS_ORIGINS: http://localhost:3000
+    volumes:
+      - crm_data:/app/data
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  front:
+    build:
+      context: .
+    container_name: crm-cnpj-front
+    environment:
+      API_URL: http://api:8000
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  crm_data:
