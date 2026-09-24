@@ -160,7 +160,7 @@ crm-cnpj-front/
 
 ## Roteiro do vídeo
 
-Vídeo de até 3 minutos:
+Vídeo de até 6 minutos:
 
 1. **Arquitetura (0:00–0:30):** mostrar o fluxograma e explicar os três componentes (Interface, API e BrasilAPI) e o proxy do nginx.
 2. **Subindo o projeto (0:30–0:50):** `docker compose up --build -d` e os dois containers em execução.
