@@ -33,7 +33,7 @@ A interface também mostra notificações de sucesso e erro, indicadores de carr
 
 ![Arquitetura da aplicação](docs/arquitetura.png)
 
-- O navegador acessa a **Interface** (React), servida pelo **nginx** na porta 3000.
+- O navegador acessa a **Interface** (React), servida pelo **nginx** na porta 26030 do host.
 - Toda chamada para `/api/*` é repassada pelo nginx para a **API** (`crm-cnpj-api`, porta 8000). Assim, o front não precisa saber o endereço da API e não há problemas de CORS.
 - A **API** é a única que acessa o banco **SQLite** e a **BrasilAPI**.
 - No desenvolvimento local, o proxy do Vite faz o mesmo papel do nginx.
@@ -71,27 +71,27 @@ API_CONTEXT=https://github.com/ph-souzaa/crm-cnpj-api.git docker compose up --bu
 
 Depois de subir:
 
-- Interface: http://localhost:3000
-- Swagger da API: http://localhost:8000/docs
+- Interface: http://localhost:26030
+- Swagger da API: http://localhost:26080/docs
 
 Para parar: `docker compose down` (os dados continuam salvos no volume `crm_data`). Para apagar também os dados: `docker compose down -v`.
 
 ### Opção 2: Ambiente local
 
-Pré-requisito: Node.js 20 ou superior. A API precisa estar rodando em http://localhost:8000 (veja o README do [crm-cnpj-api](https://github.com/ph-souzaa/crm-cnpj-api)).
+Pré-requisito: Node.js 20 ou superior. A API precisa estar rodando em http://localhost:26080 (a do Docker Compose acima; veja também o README do [crm-cnpj-api](https://github.com/ph-souzaa/crm-cnpj-api)). Para usar outro endereço, defina `API_PROXY_TARGET` (ex.: `API_PROXY_TARGET=http://localhost:8000 npm run dev` com a API rodando via uvicorn).
 
 ```bash
 npm install
 npm run dev
 ```
 
-A interface sobe em http://localhost:5173 e o Vite repassa as chamadas `/api/*` para a API.
+A interface sobe em http://localhost:26073 e o Vite repassa as chamadas `/api/*` para a API.
 
 ### Opção 3: Somente o container da interface
 
 ```bash
 docker build -t crm-cnpj-front .
-docker run -d -p 3000:80 -e API_URL=http://<endereço-da-api>:8000 crm-cnpj-front
+docker run -d -p 26030:80 -e API_URL=http://<endereço-da-api>:8000 crm-cnpj-front
 ```
 
 | Variável | Padrão | Descrição |

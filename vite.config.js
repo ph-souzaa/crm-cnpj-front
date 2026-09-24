@@ -15,10 +15,10 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    port: 26073,
     proxy: {
       '/api': {
-        target: process.env.API_PROXY_TARGET || 'http://localhost:8000',
+        target: process.env.API_PROXY_TARGET || 'http://localhost:26080',
         changeOrigin: true,
         rewrite: (caminho) => caminho.replace(/^\/api/, ''),
       },
